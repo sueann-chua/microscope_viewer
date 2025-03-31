@@ -1,0 +1,58 @@
+<div class="image-viewer-container">
+  <div class="main-content">
+    <div class="image-container">
+      <div class="upload-area" *ngIf="!currentImage">
+        <label for="image-upload" class="upload-label">
+          <span>Upload Microscopic Image</span>
+          <input type="file" id="image-upload" accept="image/*" (change)="onImageUpload($event)" />
+        </label>
+      </div>
+      
+      <div class="microscope-view" *ngIf="currentImage">
+        <div class="full-image-container">
+          <img [src]="currentImage" alt="Full microscopic image" class="full-image" #fullImage />
+          
+          <!-- Viewport window that shows the zoomed portion -->
+          <div class="viewport-window" 
+               [style.width.px]="viewportWidth" 
+               [style.height.px]="viewportHeight"
+               [style.left.px]="viewportX" 
+               [style.top.px]="viewportY">
+          </div>
+        </div>
+        
+        <div class="zoomed-view">
+          <div class="zoomed-image-container">
+            <img [src]="currentImage" alt="Zoomed microscopic image" class="zoomed-image"
+                 [style.transform]="'scale(' + zoomLevel + ')'"
+                 [style.transform-origin]="viewportX + 'px ' + viewportY + 'px'" />
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="controls-panel" *ngIf="currentImage">
+      <div class="navigation-controls">
+        <button (click)="moveViewport('up')" class="control-btn">↑</button>
+        <div class="horizontal-controls">
+          <button (click)="moveViewport('left')" class="control-btn">←</button>
+          <button (click)="moveViewport('right')" class="control-btn">→</button>
+        </div>
+        <button (click)="moveViewport('down')" class="control-btn">↓</button>
+      </div>
+      
+      <div class="zoom-controls">
+        <button (click)="adjustZoom(0.1)" class="control-btn">Zoom In (+)</button>
+        <button (click)="adjustZoom(-0.1)" class="control-btn">Zoom Out (-)</button>
+      </div>
+      
+      <div class="save-controls">
+        <button (click)="saveScreenshot()" class="save-btn">Save Screenshot</button>
+      </div>
+      
+      <div class="navigation-links">
+        <a routerLink="/gallery" class="nav-link">View Gallery</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="gallery-container">
+  <div class="header">
+    <h1>Microscope Screenshots Gallery</h1>
+    <a routerLink="/image-viewer" class="back-link">Back to Image Viewer</a>
+  </div>
+
+  <div class="no-screenshots" *ngIf="screenshots.length === 0">
+    <p>No screenshots saved yet. Go to the Image Viewer to capture some screenshots.</p>
+  </div>
+
+  <div class="gallery-content" *ngIf="screenshots.length > 0">
+    <div class="screenshots-grid">
+      <div class="screenshot-card" *ngFor="let screenshot of screenshots" (click)="selectScreenshot(screenshot)">
+        <div class="screenshot-image">
+          <img [src]="screenshot.dataUrl" [alt]="'Screenshot ' + screenshot.id">
+        </div>
+        <div class="screenshot-info">
+          <p>ID: {{ screenshot.id.substring(0, 8) }}...</p>
+          <p>Date: {{ screenshot.timestamp | date:'short' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="screenshot-details" *ngIf="selectedScreenshot">
+      <h2>Screenshot Details</h2>
+      
+      <div class="selected-image">
+        <img [src]="selectedScreenshot.dataUrl" [alt]="'Selected screenshot ' + selectedScreenshot.id">
+      </div>
+      
+      <div class="details-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Screenshot ID</td>
+              <td>{{ selectedScreenshot.id }}</td>
+            </tr>
+            <tr>
+              <td>Original Image ID</td>
+              <td>{{ selectedScreenshot.imageId }}</td>
+            </tr>
+            <tr>
+              <td>Timestamp</td>
+              <td>{{ selectedScreenshot.timestamp | date:'medium' }}</td>
+            </tr>
+            <tr>
+              <td>X Coordinate</td>
+              <td>{{ selectedScreenshot.coordinates.x }}px</td>
+            </tr>
+            <tr>
+              <td>Y Coordinate</td>
+              <td>{{ selectedScreenshot.coordinates.y }}px</td>
+            </tr>
+            <tr>
+              <td>Width</td>
+              <td>{{ selectedScreenshot.coordinates.width }}px</td>
+            </tr>
+            <tr>
+              <td>Height</td>
+              <td>{{ selectedScreenshot.coordinates.height }}px</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="actions">
+        <button class="delete-btn" (click)="deleteScreenshot(selectedScreenshot.id)">Delete Screenshot</button>
+      </div>
+    </div>
+  </div>
+</div>
